@@ -33,9 +33,25 @@ export default function Home() {
     const json = await response.json();
 
     if (response.status === 202) {
-      console.log("*AC jsonData: ", json);
+      console.log("*AC jsonData: ", json.data[0].url);
       setLoading(false);
       setImage(json.data[0].url);
+    }
+    // setMessageId(json.id);
+  }
+
+  async function mintNft() {
+    // setLoading(true);
+    toast("Mint the NFT...", { position: "top-center" });
+
+    const response = await fetch(
+      `/api/mintNft?prompt=${prompt}&imageUrl=${image}`
+    );
+    const json = await response.json();
+
+    if (response.status === 200) {
+      console.log("*AC jsonData: ", json);
+      // setLoading(false);
     }
     // setMessageId(json.id);
   }
@@ -107,8 +123,6 @@ export default function Home() {
                     setCanShowImage(true);
                   }}
                 />
-
-                <button>hasdasñlk</button>
               </div>
             )}
 
@@ -134,6 +148,19 @@ export default function Home() {
                 </p>
               </div>
             </div>
+          </div>
+
+          <div className="relative flex w-full items-center justify-center">
+            {image && (
+              <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
+                <button
+                  className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-blue-600 text-gray-100 sm:ml-2 rounded-md hover:bg-green-700"
+                  onClick={mintNft}
+                >
+                  Mint into NFT
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
