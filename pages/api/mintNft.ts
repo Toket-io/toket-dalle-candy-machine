@@ -25,7 +25,7 @@ export default async function handler(
     });
 
     const body = {
-      "mintToAddress": "0x4D1f1711CD08D5d19f76Bd7BD170171671FB9945",
+      "mintToAddress": wallet,
       "name": "Toket Dalle Demo",
       "description": prompt,
       "imageUrl": imageUrl,
