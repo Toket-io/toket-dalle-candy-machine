@@ -8,24 +8,17 @@ import { useInterval } from "../utils/use-interval";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [messageId, setMessageId] = useState("");
   const [image, setImage] = useState(null);
+  const [mintLoading, setMintLoading] = useState(false);
   const [canShowImage, setCanShowImage] = useState(false);
-
-  //   useInterval(
-  //     async () => {
-  //       const res = await fetch(`/api/poll?id=${messageId}`);
-  //       const json = await res.json();
-  //       if (res.status === 200) {
-  //         setLoading(false);
-  //         setImage(json.data[0].url);
-  //       }
-  //     },
-  //     loading ? 1000 : null
-  //   );
 
   async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // Reset image state
+    setImage(null);
+    setCanShowImage(false);
+
     setLoading(true);
     toast("Generating your image...", { position: "top-center" });
 
@@ -37,23 +30,32 @@ export default function Home() {
       setLoading(false);
       setImage(json.data[0].url);
     }
-    // setMessageId(json.id);
   }
 
   async function mintNft() {
-    // setLoading(true);
     toast("Mint the NFT...", { position: "top-center" });
+    setMintLoading(true);
 
-    const response = await fetch(
-      `/api/mintNft?prompt=${prompt}&imageUrl=${image}`
-    );
+    const url = "/api/mintNft";
+    const data = {
+      prompt: prompt,
+      imageUrl: image,
+    };
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
     const json = await response.json();
 
     if (response.status === 200) {
       console.log("*AC jsonData: ", json);
-      // setLoading(false);
     }
-    // setMessageId(json.id);
+
+    setMintLoading(false);
   }
 
   const showLoadingState = loading || (image && !canShowImage);
@@ -81,6 +83,7 @@ export default function Home() {
             />
             <button
               className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-md hover:bg-green-700"
+              disabled={showLoadingState}
               type="submit"
             >
               {showLoadingState && (
@@ -108,7 +111,8 @@ export default function Home() {
               {!showLoadingState ? "Generate Image" : ""}
             </button>
           </form>
-          <div className="relative flex w-full items-center justify-center">
+
+          <div className="relative flex w-full items-center justify-center mb-6">
             {image && (
               <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
                 <Image
@@ -151,13 +155,37 @@ export default function Home() {
           </div>
 
           <div className="relative flex w-full items-center justify-center">
-            {image && (
-              <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
+            {image && !showLoadingState && (
+              <div className="flex w-full sm:w-auto flex-col sm:flex-row">
                 <button
-                  className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-blue-600 text-gray-100 sm:ml-2 rounded-md hover:bg-green-700"
+                  class="button-85"
+                  role="button"
+                  disabled={mintLoading}
                   onClick={mintNft}
                 >
-                  Mint into NFT
+                  {mintLoading && (
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  )}
+                  {!mintLoading ? "Mint into NFT" : ""}
                 </button>
               </div>
             )}

@@ -11,8 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { prompt, imageUrl, wallet, name } = req.query;
-  console.log("*AC received api call: ", prompt, imageUrl);
+  const { prompt, imageUrl, wallet, name } = req.body
 
   try {
     // Check if the user has exceeded maximum number of requests per minute
@@ -27,8 +26,8 @@ export default async function handler(
 
     const body = {
       "mintToAddress": "0x4D1f1711CD08D5d19f76Bd7BD170171671FB9945",
-      "name": "Easy Mint Demo",
-      "description": "This is a demo of Toket'\''s Easy mint API",
+      "name": "Toket Dalle Demo",
+      "description": prompt,
       "imageUrl": imageUrl,
       "attributes": [
         {
