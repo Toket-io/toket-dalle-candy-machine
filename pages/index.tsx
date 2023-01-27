@@ -19,6 +19,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { useInterval } from "../utils/use-interval";
+import MintForm, { MintFormResult } from "../components/MintForm";
 
 type PendingTransactionProps = {
   id: string;
@@ -108,7 +109,7 @@ export default function Home() {
     }
   };
 
-  async function mintNft() {
+  async function mintNft(result: MintFormResult) {
     toast("Mint the NFT...", { position: "top-center" });
     setMintLoading(true);
 
@@ -159,7 +160,6 @@ export default function Home() {
             validateOnChange={false}
             initialValues={{
               prompt: "blue car with stripes",
-              wallet: "0xdF2281d08208581F83230b8bAF2820623B70D449",
             }}
           >
             {({
@@ -187,26 +187,6 @@ export default function Home() {
 
                       <Form.Control.Feedback type="invalid">
                         {errors.prompt}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationFormik01">
-                    <InputGroup hasValidation>
-                      <Form.Control
-                        type="text"
-                        placeholder="Wallet Address"
-                        name="wallet"
-                        value={values.wallet}
-                        onChange={handleChange}
-                        isInvalid={!!errors.wallet}
-                        disabled={showLoadingState}
-                      />
-
-                      <Form.Control.Feedback type="invalid">
-                        {errors.wallet}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>
@@ -286,38 +266,13 @@ export default function Home() {
           ) : (
             <div className="relative flex w-full items-center justify-center">
               {image && !showLoadingState && (
-                <div className="flex w-full sm:w-auto flex-col sm:flex-row">
-                  <button
-                    className="button-85"
-                    role="button"
-                    disabled={mintLoading}
-                    onClick={mintNft}
-                  >
-                    {mintLoading && (
-                      <svg
-                        className="animate-spin h-5 w-5 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                    )}
-                    {!mintLoading ? "Mint into NFT" : ""}
-                  </button>
-                </div>
+                // <div className="flex w-full sm:w-auto flex-col sm:flex-row">
+                <MintForm
+                  prompt={prompt}
+                  loading={mintLoading}
+                  onSubmit={mintNft}
+                />
+                // </div>
               )}
             </div>
           )}
@@ -336,9 +291,6 @@ function validationSchema() {
         `Prompt must be at least ${TEXT_MIN_LENGTH} chareacters long`
       )
       .required("Prompt is required"),
-    wallet: Yup.string()
-      .required("Wallet address is required")
-      .matches(/^0x[a-fA-F0-9]{40}$/, "Please use a valid a address"),
   };
 }
 
