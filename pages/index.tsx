@@ -5,64 +5,12 @@ import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import Link from "next/link";
-
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  InputGroup,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useInterval } from "../utils/use-interval";
 import MintForm, { MintFormResult } from "../components/MintForm";
-
-type PendingTransactionProps = {
-  id: string;
-  transactionHash: string;
-};
-
-const PendingTransaction = (props: PendingTransactionProps) => {
-  const { id, transactionHash } = props;
-  return (
-    <div
-      className="w-full sm:w-[400px] relative"
-      style={styles.pendingTransaction}
-    >
-      <div>
-        <h5 style={styles.transactionHashTitle}>Mint ID</h5>
-        <p style={styles.transactionHashValue}>{id}</p>
-      </div>
-
-      {transactionHash ? (
-        <div>
-          <h5 style={styles.transactionHashTitle}>Transaction Hash</h5>
-          <p style={styles.transactionHashValue}>
-            {`${transactionHash.substring(0, 10)}...${transactionHash.substring(
-              transactionHash.length - 10
-            )}`}
-          </p>
-          <a
-            target="_blank"
-            href={`https://mumbai.polygonscan.com/tx/${transactionHash}`}
-            rel="noopener noreferrer"
-          >
-            <button>Open Explorer</button>
-          </a>
-        </div>
-      ) : (
-        <Spinner size="sm" />
-      )}
-    </div>
-  );
-};
+import PendingTransaction from "../components/PendingTransaction";
 
 export default function Home() {
-  // const [wallet, setWallet] = useState("");
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
