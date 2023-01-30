@@ -35,8 +35,6 @@ export default async function handler(
         const json = await response.json();
         return res.status(200).json(json);
     } catch (error) {
-        console.log("*AC error: ", error.message);
-
         return res
             .status(500)
             .json({ message: error.message, type: "Internal server error" });

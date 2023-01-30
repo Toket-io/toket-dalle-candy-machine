@@ -21,11 +21,16 @@ export default function Home() {
 
   useInterval(
     async () => {
-      const res = await fetch(`/api/getMintedNft?id=${mintId}`);
-      const json = await res.json();
-      if (res.status === 200) {
-        console.log("*AC fetched mint: ", json.transactionHash);
-        setTransactionHash(json.transactionHash);
+      try {
+        const res = await fetch(`/api/getMintedNft?id=${mintId}`);
+        const json = await res.json();
+
+        if (res.status === 200) {
+          console.log("*AC fetched mint: ", json.transactionHash);
+          setTransactionHash(json.transactionHash);
+        }
+      } catch (error) {
+        toast.error("Something went wrong...", { position: "top-center" });
       }
     },
     mintId && !transactionHash ? 1000 : null
@@ -33,8 +38,6 @@ export default function Home() {
 
   const generateSubmit = async (formValue) => {
     const { prompt } = formValue;
-
-    // TODO: Add error handling
 
     setPrompt(prompt);
 
@@ -49,13 +52,17 @@ export default function Home() {
     setLoading(true);
     toast("Generating your image...", { position: "top-center" });
 
-    const response = await fetch(`/api/image?prompt=${prompt}`);
-    const json = await response.json();
+    try {
+      const response = await fetch(`/api/image?prompt=${prompt}`);
+      const json = await response.json();
 
-    if (response.status === 202) {
-      console.log("*AC jsonData: ", json.data[0].url);
-      setLoading(false);
-      setImage(json.data[0].url);
+      if (response.status === 202) {
+        console.log("*AC jsonData: ", json.data[0].url);
+        setLoading(false);
+        setImage(json.data[0].url);
+      }
+    } catch (error) {
+      toast.error("Something went wrong...", { position: "top-center" });
     }
   };
 
@@ -77,19 +84,24 @@ export default function Home() {
       imageUrl: image,
       prompt,
     };
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
 
-    const json = await response.json();
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (response.status === 200) {
-      console.log("*AC jsonData: ", json);
-      setMintId(json.id);
+      const json = await response.json();
+
+      if (response.status === 200) {
+        console.log("*AC jsonData: ", json);
+        setMintId(json.id);
+      }
+    } catch (error) {
+      toast.error("Something went wrong...", { position: "top-center" });
     }
 
     setMintLoading(false);
@@ -149,10 +161,6 @@ export default function Home() {
                       </InputGroup>
                     </Form.Group>
                   </Row>
-
-                  {/* {errorText != "" && (
-                  <Alert variant={"danger"}>{errorText}</Alert>
-                )} */}
 
                   <Row className="mb-3">
                     <div className="d-grid gap-2">
