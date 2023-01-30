@@ -216,47 +216,49 @@ export default function Home() {
             )}
           </Formik>
 
-          <div className="relative flex w-full items-center justify-center mb-6">
-            {image && (
-              <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
-                <Image
-                  alt={`Dall-E representation of: ${prompt}`}
-                  className={cn(
-                    "opacity-0 duration-1000 ease-in-out rounded-md shadow-md h-full object-cover",
-                    { "opacity-100": canShowImage }
-                  )}
-                  src={image}
-                  fill={true}
-                  onLoadingComplete={() => {
-                    setCanShowImage(true);
-                  }}
-                />
-              </div>
-            )}
-
-            <div
-              className={cn(
-                "w-full sm:w-[400px] absolute top-0.5 overflow-hidden rounded-2xl bg-white/5 shadow-xl shadow-black/5",
-                {
-                  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-500/10 before:to-transparent":
-                    showLoadingState,
-                  "opacity-0 shadow-none": canShowImage,
-                }
+          {prompt && (
+            <div className="relative flex w-full items-center justify-center mb-6">
+              {image && (
+                <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
+                  <Image
+                    alt={`Dall-E representation of: ${prompt}`}
+                    className={cn(
+                      "opacity-0 duration-1000 ease-in-out rounded-md shadow-md h-full object-cover",
+                      { "opacity-100": canShowImage }
+                    )}
+                    src={image}
+                    fill={true}
+                    onLoadingComplete={() => {
+                      setCanShowImage(true);
+                    }}
+                  />
+                </div>
               )}
-            >
+
               <div
                 className={cn(
-                  "w-full sm:w-[400px] h-[400px] bg-gray-200 rounded-md shadow-md flex items-center justify-center"
+                  "w-full sm:w-[400px] absolute top-0.5 overflow-hidden rounded-2xl bg-white/5 shadow-xl shadow-black/5",
+                  {
+                    "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-500/10 before:to-transparent":
+                      showLoadingState,
+                    "opacity-0 shadow-none": canShowImage,
+                  }
                 )}
               >
-                <p className="uppercase text-sm text-gray-400">
-                  {showLoadingState
-                    ? "Generating image...."
-                    : "No image selected"}
-                </p>
+                <div
+                  className={cn(
+                    "w-full sm:w-[400px] h-[400px] bg-gray-200 rounded-md shadow-md flex items-center justify-center"
+                  )}
+                >
+                  <p className="uppercase text-sm text-gray-400">
+                    {showLoadingState
+                      ? "Generating image...."
+                      : "No image selected"}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {mintId ? (
             <PendingTransaction

@@ -40,8 +40,10 @@ export default function MintForm(props: MintFormProps) {
   };
 
   return (
-    <>
-      <h4>Mint</h4>
+    <div style={styles.container}>
+      <div style={styles.titleContainer}>
+        <h4>Setup your NFT</h4>
+      </div>
       <Formik
         validationSchema={Yup.object(validationSchema())}
         onSubmit={registerSubmit}
@@ -84,7 +86,7 @@ export default function MintForm(props: MintFormProps) {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormik01">
+              <Form.Group as={Col} md="12" controlId="validationFormik02">
                 <Form.Label>NFT Description</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -104,8 +106,8 @@ export default function MintForm(props: MintFormProps) {
               </Form.Group>
             </Row>
 
-            <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormik01">
+            <Row className="mb-4">
+              <Form.Group as={Col} md="12" controlId="validationFormik03">
                 <Form.Label>Wallet Address</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -125,31 +127,22 @@ export default function MintForm(props: MintFormProps) {
               </Form.Group>
             </Row>
 
-            {/* {errorText != "" && (
-                  <Alert variant={"danger"}>{errorText}</Alert>
-                )} */}
-
-            <Row className="mb-3">
-              <button
-                className="button-85"
-                role="button"
-                disabled={loading}
-                type="submit"
-              >
-                {loading ? <Spinner size="sm" /> : "Mint NFT"}
-              </button>
-
-              {/* </Col> */}
-              {/* <Col xs={6} className="text-end">
-                    <Button className="px-0" variant="link" type="submit">
-                      Already have an account? Log In
-                    </Button>
-                  </Col> */}
+            <Row>
+              <div style={styles.buttonRow}>
+                <button
+                  className="button-85"
+                  role="button"
+                  disabled={loading}
+                  type="submit"
+                >
+                  {loading ? <Spinner size="sm" /> : "Mint NFT"}
+                </button>
+              </div>
             </Row>
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 
@@ -173,3 +166,25 @@ function validationSchema() {
       .matches(/^0x[a-fA-F0-9]{40}$/, "Please use a valid a address"),
   };
 }
+
+const styles = {
+  container: {
+    backgroundColor: "#C4C4C4",
+    borderRadius: 18,
+    padding: 20,
+    minWidth: "50%",
+  },
+  titleContainer: {
+    textAlign: "center",
+  },
+  buttonRow: {
+    // marginTop: 10,
+    display: "flex",
+    alignItems: "center",
+    padding: 0,
+    width: "100%",
+    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
+};
