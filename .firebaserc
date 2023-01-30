@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "toket-staging"
+  },
+  "targets": {
+    "toket-staging": {
+      "hosting": {
+        "demo": [
+          "toket-demo"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
