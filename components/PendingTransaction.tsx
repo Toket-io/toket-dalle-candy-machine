@@ -35,10 +35,7 @@ export default function PendingTransaction(props: PendingTransactionProps) {
   const { id, transactionHash } = props;
 
   return (
-    <div
-      className="w-full sm:w-[400px] rounded-xl shadow-md relative bg-gray-700 text-white px-4 py-5"
-      style={styles.container}
-    >
+    <div className="w-full sm:w-[400px] rounded-xl shadow-md relative bg-gray-700 text-white px-4 py-5">
       <div style={styles.titleContainer}>
         <h4>Mint Result</h4>
       </div>

@@ -51,7 +51,7 @@ export default function MintForm(props: MintFormProps) {
         initialValues={{
           name: prompt,
           description: "NFT auto generated usign DALL·E 2 and Toket APIs",
-          wallet: "0xdF2281d08208581F83230b8bAF2820623B70D449",
+          wallet: "",
         }}
       >
         {({

@@ -117,7 +117,7 @@ export default function Home() {
               onSubmit={generateSubmit}
               validateOnChange={false}
               initialValues={{
-                prompt: "blue car with stripes",
+                prompt: "",
               }}
             >
               {({
