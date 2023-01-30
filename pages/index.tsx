@@ -60,7 +60,7 @@ export default function Home() {
   };
 
   async function mintNft(result: MintFormResult) {
-    toast("Mint the NFT...", { position: "top-center" });
+    toast("Minting your NFT...", { position: "top-center" });
     setMintLoading(true);
 
     const { name, description, wallet } = result;
@@ -102,10 +102,13 @@ export default function Home() {
       <Head>
         <title>Toket & Dall-E AI NFT Generator</title>
       </Head>
-      <div className="antialiased mx-auto px-4 py-20 h-screen bg-gray-100">
+      <div
+        className="antialiased mx-auto px-4 py-20 h-100 bg-dark"
+        style={{ minHeight: "30%" }}
+      >
         <Toaster />
         <div className="flex flex-col items-center justify-center">
-          <h1 className="text-5xl tracking-tighter pb-10 font-bold text-gray-800">
+          <h1 className="text-4xl tracking-tighter pb-10 font-bold text-white">
             Toket & Dall-E AI NFT Generator
           </h1>
           <div className="w-full sm:w-[400px] relative">
@@ -170,11 +173,11 @@ export default function Home() {
           {prompt && (
             <div className="relative flex w-full items-center justify-center mb-6">
               {image && (
-                <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
+                <div className="w-full sm:w-[400px] h-[400px] rounded-xl shadow-md relative">
                   <Image
                     alt={`Dall-E representation of: ${prompt}`}
                     className={cn(
-                      "opacity-0 duration-1000 ease-in-out rounded-md shadow-md h-full object-cover",
+                      "opacity-0 duration-1000 ease-in-out rounded-xl shadow-md h-full object-cover",
                       { "opacity-100": canShowImage }
                     )}
                     src={image}
@@ -188,7 +191,7 @@ export default function Home() {
 
               <div
                 className={cn(
-                  "w-full sm:w-[400px] absolute top-0.5 overflow-hidden rounded-2xl bg-white/5 shadow-xl shadow-black/5",
+                  "w-full sm:w-[400px] absolute top-0.5 overflow-hidden rounded-xl bg-white/5 shadow-xl shadow-black/5",
                   {
                     "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-500/10 before:to-transparent":
                       showLoadingState,
@@ -198,7 +201,7 @@ export default function Home() {
               >
                 <div
                   className={cn(
-                    "w-full sm:w-[400px] h-[400px] bg-gray-200 rounded-md shadow-md flex items-center justify-center"
+                    "w-full sm:w-[400px] h-[400px] bg-gray-200 rounded-xl shadow-md flex items-center justify-center"
                   )}
                 >
                   <p className="uppercase text-sm text-gray-400">

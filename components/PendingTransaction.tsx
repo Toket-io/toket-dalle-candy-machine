@@ -36,7 +36,7 @@ export default function PendingTransaction(props: PendingTransactionProps) {
 
   return (
     <div
-      className="w-full sm:w-[400px] rounded-md shadow-md relative"
+      className="w-full sm:w-[400px] rounded-xl shadow-md relative bg-gray-700 text-white px-4 py-5"
       style={styles.container}
     >
       <div style={styles.titleContainer}>
@@ -108,12 +108,6 @@ function validationSchema() {
 }
 
 const styles = {
-  container: {
-    backgroundColor: "#C4C4C4",
-    borderRadius: 18,
-    padding: 20,
-    // minWidth: "50%",
-  },
   titleContainer: {
     textAlign: "center",
   },
