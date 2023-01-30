@@ -1,0 +1,7 @@
+// Import Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// // Override body background color to dark mode
+body {
+  background-color: $dark;
+}
