@@ -40,7 +40,10 @@ export default function MintForm(props: MintFormProps) {
   };
 
   return (
-    <div style={styles.container}>
+    <div
+      className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative"
+      style={styles.container}
+    >
       <div style={styles.titleContainer}>
         <h4>Setup your NFT</h4>
       </div>
@@ -172,7 +175,7 @@ const styles = {
     backgroundColor: "#C4C4C4",
     borderRadius: 18,
     padding: 20,
-    minWidth: "50%",
+    // minWidth: "50%",
   },
   titleContainer: {
     textAlign: "center",

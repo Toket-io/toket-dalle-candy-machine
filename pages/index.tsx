@@ -29,7 +29,10 @@ type PendingTransactionProps = {
 const PendingTransaction = (props: PendingTransactionProps) => {
   const { id, transactionHash } = props;
   return (
-    <div style={styles.pendingTransaction}>
+    <div
+      className="w-full sm:w-[400px] relative"
+      style={styles.pendingTransaction}
+    >
       <div>
         <h5 style={styles.transactionHashTitle}>Mint ID</h5>
         <p style={styles.transactionHashValue}>{id}</p>
@@ -59,7 +62,7 @@ const PendingTransaction = (props: PendingTransactionProps) => {
 };
 
 export default function Home() {
-  const [wallet, setWallet] = useState("");
+  // const [wallet, setWallet] = useState("");
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -80,12 +83,11 @@ export default function Home() {
     mintId && !transactionHash ? 1000 : null
   );
 
-  const registerSubmit = async (formValue) => {
-    const { prompt, wallet } = formValue;
+  const generateSubmit = async (formValue) => {
+    const { prompt } = formValue;
 
     // TODO: Add error handling
 
-    setWallet(wallet);
     setPrompt(prompt);
 
     // Reset mint state
@@ -113,15 +115,19 @@ export default function Home() {
     toast("Mint the NFT...", { position: "top-center" });
     setMintLoading(true);
 
+    const { name, description, wallet } = result;
+
     // Reset mint state
     setTransactionHash(null);
     setMintId(null);
 
     const url = "/api/mintNft";
     const data = {
-      prompt,
-      imageUrl: image,
+      name,
+      description,
       wallet,
+      imageUrl: image,
+      prompt,
     };
     const response = await fetch(url, {
       method: "POST",
@@ -154,67 +160,64 @@ export default function Home() {
           <h1 className="text-5xl tracking-tighter pb-10 font-bold text-gray-800">
             Toket & Dall-E AI NFT Generator
           </h1>
-          <Formik
-            validationSchema={Yup.object(validationSchema())}
-            onSubmit={registerSubmit}
-            validateOnChange={false}
-            initialValues={{
-              prompt: "blue car with stripes",
-            }}
-          >
-            {({
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              values,
-              touched,
-              isValid,
-              errors,
-            }) => (
-              <Form noValidate onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationFormik01">
-                    <InputGroup hasValidation>
-                      <Form.Control
-                        type="text"
-                        placeholder="Prompt for DALL-E"
-                        name="prompt"
-                        value={values.prompt}
-                        onChange={handleChange}
-                        isInvalid={!!errors.prompt}
-                        disabled={showLoadingState}
-                      />
+          <div className="w-full sm:w-[400px] relative">
+            <Formik
+              validationSchema={Yup.object(validationSchema())}
+              onSubmit={generateSubmit}
+              validateOnChange={false}
+              initialValues={{
+                prompt: "blue car with stripes",
+              }}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                touched,
+                isValid,
+                errors,
+              }) => (
+                <Form noValidate onSubmit={handleSubmit}>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationFormik01">
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          type="text"
+                          placeholder="Prompt for DALL-E"
+                          name="prompt"
+                          value={values.prompt}
+                          onChange={handleChange}
+                          isInvalid={!!errors.prompt}
+                          disabled={showLoadingState || mintLoading}
+                        />
 
-                      <Form.Control.Feedback type="invalid">
-                        {errors.prompt}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.prompt}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
 
-                {/* {errorText != "" && (
+                  {/* {errorText != "" && (
                   <Alert variant={"danger"}>{errorText}</Alert>
                 )} */}
 
-                <Row className="mb-3">
-                  <Button
-                    className="px-4"
-                    variant="primary"
-                    type="submit"
-                    disabled={loading}
-                  >
-                    {loading ? <Spinner size="sm" /> : "Generate"}
-                  </Button>
-                  {/* </Col> */}
-                  {/* <Col xs={6} className="text-end">
-                    <Button className="px-0" variant="link" type="submit">
-                      Already have an account? Log In
-                    </Button>
-                  </Col> */}
-                </Row>
-              </Form>
-            )}
-          </Formik>
+                  <Row className="mb-3">
+                    <div className="d-grid gap-2">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        disabled={loading || mintLoading}
+                      >
+                        {loading ? <Spinner size="sm" /> : "Generate"}
+                      </Button>
+                    </div>
+                  </Row>
+                </Form>
+              )}
+            </Formik>
+          </div>
 
           {prompt && (
             <div className="relative flex w-full items-center justify-center mb-6">

@@ -11,7 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { prompt, imageUrl, wallet, name } = req.body
+  const { name, description, wallet, imageUrl, prompt } = req.body
 
   try {
     // Check if the user has exceeded maximum number of requests per minute
@@ -26,19 +26,13 @@ export default async function handler(
 
     const body = {
       "mintToAddress": wallet,
-      "name": "Toket Dalle Demo",
-      "description": prompt,
+      "name": name,
+      "description": description,
       "imageUrl": imageUrl,
       "attributes": [
         {
-          "traitType": "Color",
-          "value": "Red"
-        },
-        {
-          "traitType": "Boost Level",
-          "value": 5,
-          "maxValue": 20,
-          "displayType": "boost_number"
+          "traitType": "Prompt",
+          "value": prompt
         }
       ]
     }
