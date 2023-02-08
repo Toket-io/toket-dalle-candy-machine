@@ -36,7 +36,7 @@ export default async function handler(
       body: JSON.stringify({
         prompt,
         n: 1,
-        size: "1024x1024",
+        size: "512×512",
       }),
     });
     const json = await responseDalle.json();
