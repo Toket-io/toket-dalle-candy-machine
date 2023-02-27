@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-const TOKET_URL = "https://toket-public-gateway-sf3wxt4.uc.gateway.dev/v0/easyMint";
+const TOKET_URL = "https://toket-public-gateway-3cpfdsl0.uc.gateway.dev/v0/easyMint";
 import rateLimit from "../../utils/rate-limit";
 
 const limiter = rateLimit({
